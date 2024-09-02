@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Categoria {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  descricao String
+}
+
+model Cliente {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  nome String
+  cpf String @unique
+  data_nascimento DateTime?
+  email String @unique
+  logradouro String
+  num_casa String
+  complemento String?
+  bairro String
+  municipio String
+  uf String
+  cep String
+  celular String
+}
+
+model Produto {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  nome String
+  marca String
+  especificacao String?
+  categoria String
+  qtd_estoque Int
+  preco_unitario Int
+  unidade_medida Int
+
+}
