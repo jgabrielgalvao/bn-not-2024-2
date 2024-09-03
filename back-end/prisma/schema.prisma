@@ -28,14 +28,30 @@ model Cliente {
   celular String
 }
 
-model Produto {
+model Fornecedor {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  nome String
-  marca String
-  especificacao String?
-  categoria String
-  qtd_estoque Int
-  preco_unitario Int
-  unidade_medida Int
-
+  razao_social String
+  nome_fantasia String?
+  cnpj String @unique
+  email String @unique
+  logradouro String
+  num_casa String
+  complemento String?
+  bairro String
+  municipio String
+  uf String
+  cep String
+  celular String
 }
+
+// model Produto {
+//   id String @id @default(auto()) @map("_id") @db.ObjectId
+//   nome String
+//   marca String
+//   especificacao String?
+//   categoria String
+//   qtd_estoque Int
+//   preco_unitario Int
+//   unidade_medida Int
+
+// }
