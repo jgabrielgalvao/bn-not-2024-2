@@ -2,6 +2,8 @@ import prisma from "../database/client.js";
 
 const controller = {} //Objeto vazio
 
+//CREATE
+
 controller.create = async function(req,res) {
     try{
         
@@ -9,7 +11,7 @@ controller.create = async function(req,res) {
         // de criação de um novo documento, com dados
         // que estão dentro do req.body
         
-        await prisma.categoria.create( { data:req.body } )
+        await prisma.cliente.create( { data:req.body } )
         
         // envia uma resposta de sucesso ao front-end 
         // HTTP 201: Created
@@ -27,12 +29,14 @@ controller.create = async function(req,res) {
     }
 }
 
+// READ
+
 controller.retrieveAll = async function(req,res) {
     try{
         
         // manda buscar os dados no servidor
         
-        const result = await prisma.categoria.findMany( { orderBy: [ { descricao: 'asc' } ] } )
+        const result = await prisma.cliente.findMany( { orderBy: [ { nome: 'asc' } ] } )
         
         // envia uma resposta de sucesso ao front-end 
         // HTTP 201: Created
@@ -56,7 +60,7 @@ controller.retrieveOne = async function(req, res){
         // manda buscar o documento no servidor
         // usando como critério de busca um id informado no parametro da req
         
-        const result = await prisma.categoria.findUnique({
+        const result = await prisma.cliente.findUnique({
             where: { id: req.params.id }
         })
         
@@ -76,13 +80,15 @@ controller.retrieveOne = async function(req, res){
     }
 }
 
+// UPDATE
+
 controller.update = async function(req, res){
     try {
         
         // busca o documento pelo id passado como parametro
         // atualiza caso encontre com as informações passadas no req.body
         
-        const result = await prisma.categoria.update({
+        const result = await prisma.cliente.update({
             where: {id: req.params.id},
             data: req.body
         })
@@ -102,11 +108,13 @@ controller.update = async function(req, res){
     }
 }
 
+// DELETE
+
 controller.delete = async function(req, res) {
     try {
       // Busca o documento a ser excluído pelo id passado
       // como parâmetro e efetua a exclusão caso encontrado
-      await prisma.categoria.delete({
+      await prisma.cliente.delete({
         where: { id: req.params.id }
       })
   
