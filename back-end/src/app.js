@@ -6,6 +6,7 @@ import indexRouter from './routes/index.js'
 import usersRouter from './routes/users.js'
 import categoriasRouter from './routes/categorias.js'
 import clientesRouter from './routes/clientes.js'
+import fornecedoresRouter from './routes/fornecedores.js'
 
 const app = express()
 
@@ -20,5 +21,6 @@ app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/categorias', categoriasRouter) 
 app.use('/clientes', clientesRouter)
+app.use('/fornecedores', fornecedoresRouter)
 
 export default app
