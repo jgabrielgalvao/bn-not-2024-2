@@ -8,11 +8,12 @@ import app from '../app.js'
 import chalk from 'chalk'
 import { createServer } from 'http'
 
+
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '8080')
+const port = normalizePort(process.env.PORT || '3030')
 app.set('port', port)
 
 /**

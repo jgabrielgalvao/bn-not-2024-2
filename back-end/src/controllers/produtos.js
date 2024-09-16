@@ -9,7 +9,7 @@ controller.create = async function(req,res) {
         // de criação de um novo documento, com dados
         // que estão dentro do req.body
         
-        await prisma.categoria.create( { data:req.body } )
+        await prisma.produto.create( { data:req.body } )
         
         // envia uma resposta de sucesso ao front-end 
         // HTTP 201: Created
@@ -30,25 +30,11 @@ controller.create = async function(req,res) {
 controller.retrieveAll = async function(req,res) {
     try{
         
-        //por padrão, não inclui nenhuma entidade relacionada
-        const include = {}
-
-        //verifica na query da requisição se foi passado o parametro include
-        if(req.query.include){
-
-            //se tiver mais de uma relação, as separa por virgula
-            const relations = req.query.include.split(',')
-
-            //le cada relação
-            for(let rel of relations){
-                include[rel] = true
-            }
-        }
-
         // manda buscar os dados no servidor
         
-        const result = await prisma.categoria.findMany( { 
-            orderBy: [ { descricao: 'asc' } ] } )
+        const result = await prisma.produto.findMany( { 
+            include: {categoria: true},
+            orderBy: [ { nome: 'asc' } ] } )
         
         // envia uma resposta de sucesso ao front-end 
         // HTTP 201: Created
@@ -72,7 +58,8 @@ controller.retrieveOne = async function(req, res){
         // manda buscar o documento no servidor
         // usando como critério de busca um id informado no parametro da req
         
-        const result = await prisma.categoria.findUnique({
+        const result = await prisma.produto.findUnique({
+            include: {categoria: true},
             where: { id: req.params.id }
         })
         
@@ -98,7 +85,7 @@ controller.update = async function(req, res){
         // busca o documento pelo id passado como parametro
         // atualiza caso encontre com as informações passadas no req.body
         
-        const result = await prisma.categoria.update({
+        const result = await prisma.produto.update({
             where: {id: req.params.id},
             data: req.body
         })
@@ -122,7 +109,7 @@ controller.delete = async function(req, res) {
     try {
       // Busca o documento a ser excluído pelo id passado
       // como parâmetro e efetua a exclusão caso encontrado
-      await prisma.categoria.delete({
+      await prisma.produto.delete({
         where: { id: req.params.id }
       })
   
