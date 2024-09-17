@@ -1,10 +1,11 @@
 import prisma from "../database/client.js";
+import { includeRelations } from "../lib/utils.js";
 
 const controller = {} //Objeto vazio
 
 controller.create = async function(req,res) {
     try{
-        
+
         // conecta-se ao BD e envia uma instrução
         // de criação de um novo documento, com dados
         // que estão dentro do req.body
@@ -29,25 +30,13 @@ controller.create = async function(req,res) {
 
 controller.retrieveAll = async function(req,res) {
     try{
-        
-        //por padrão, não inclui nenhuma entidade relacionada
-        const include = {}
 
-        //verifica na query da requisição se foi passado o parametro include
-        if(req.query.include){
-
-            //se tiver mais de uma relação, as separa por virgula
-            const relations = req.query.include.split(',')
-
-            //le cada relação
-            for(let rel of relations){
-                include[rel] = true
-            }
-        }
+        const include = includeRelations(req.query)
 
         // manda buscar os dados no servidor
-        
-        const result = await prisma.categoria.findMany( { 
+
+        const result = await prisma.categoria.findMany( {
+            include, 
             orderBy: [ { descricao: 'asc' } ] } )
         
         // envia uma resposta de sucesso ao front-end 
@@ -68,11 +57,14 @@ controller.retrieveAll = async function(req,res) {
 
 controller.retrieveOne = async function(req, res){
     try {
-        
+
+        const include = includeRelations(req.query)
+
         // manda buscar o documento no servidor
         // usando como critério de busca um id informado no parametro da req
         
         const result = await prisma.categoria.findUnique({
+            include,
             where: { id: req.params.id }
         })
         
